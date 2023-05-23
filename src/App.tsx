@@ -112,4 +112,8 @@ export default App;
 
 // TIME: 
 // 23.05 - start 11:00 - end 14:00 = 0300
-// 23.05 - start 15:30 - end 
+// 23.05 - start 15:30 - end 16:45 = 0115
+// 23.05 - start 19:45 - end 20:00 = 0015
+// 23.05 - start 20:15 - end 20:30 = 0015
+
+
