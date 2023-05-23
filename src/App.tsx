@@ -1,4 +1,4 @@
-import React from 'react';
+import { useState } from 'react';
 import styled from 'styled-components';
 import { StageDisplay, Timer, ControllButtons } from './Components';
 import {ReactComponent as FocusIcon} from './Icons/Focus.svg';
@@ -24,21 +24,53 @@ enum Stages {
 
 // TODO: store stages as enums? strings + icon
 function App() {
+  const [currentStageIndex, setCurrentStageIndex] = useState<number>(0);
+  const [currentStage, setCurrentStage] = useState<Stages>(Stages.focus);
+  
+  const stageSequence = [
+    Stages.focus,
+    Stages.shortBreak,
+    Stages.focus,
+    Stages.longBreak,
+  ];
 
-  const defaultState = {
-    stage: 'Focus',
-    time: 45,
-    icon: FocusIcon
-  };
-
-  const skipStage = () => {
-    console.log('SKIP');
+  const stagesInfo = {
+    [Stages.focus]: {
+      label: "Focus",
+      icon: FocusIcon,
+      lengthInMinutes: 25,
+      value: Stages.focus,
+    },
+    [Stages.shortBreak]: {
+      label: "Short Break",
+      icon: BreakIcon,
+      lengthInMinutes: 5,
+      value: Stages.shortBreak,
+    },
+    [Stages.longBreak]: {
+      label: "Long Break",
+      icon: BreakIcon,
+      lengthInMinutes: 15,
+      value: Stages.longBreak,
+    }
   }
+
+  //TODO: add notification when skiping stage
+  const skipStage = () => {
+    if(currentStageIndex == stageSequence.length - 1) {
+      setCurrentStageIndex(0);
+      setCurrentStage(stageSequence[0]);
+    } else {
+      const nextStageIndex = currentStageIndex + 1;
+      setCurrentStageIndex(nextStageIndex);
+      setCurrentStage(stageSequence[nextStageIndex]);
+    }
+  };
 
   return (
     <AppWrapper>
-      <StageDisplay Icon={defaultState.icon} stage={defaultState.stage}/>
-      <Timer time={defaultState.time}/>
+      <StageDisplay Icon={stagesInfo[currentStage].icon} stage={stagesInfo[currentStage].label}/>
+      <Timer time={stagesInfo[currentStage].lengthInMinutes}/>
       <ControllButtons handleSkipStage={skipStage}/>
     </AppWrapper>
   );
