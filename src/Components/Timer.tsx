@@ -1,4 +1,4 @@
-import {FC} from "react";
+import {FC, useEffect, useState} from "react";
 import styled from "styled-components";
 
 const Time = styled.div`
@@ -12,15 +12,47 @@ const Time = styled.div`
 
 interface ITimer {
     time: number;
+    isActive: boolean;
+    handleTimeout: () => void;
 }
 
 
 //TODO: format time here?
-const Timer:FC<ITimer> = ({time}) => (
-    <Time>
-        <div>{time}</div>
-        <div>{time}</div>
-    </Time>
-)
+const Timer:FC<ITimer> = ({time, isActive, handleTimeout}) => {
+    const [timeLeft, updateTimeLeft] = useState(time);
+    
+    useEffect(() => {
+        let timerInterval:number;
+        if(isActive) {
+            let t = timeLeft;
+            timerInterval = window.setInterval(() => {
+                if(t > 0) {
+                    t = t -1;
+                    updateTimeLeft(t);
+                } else {
+                    clearInterval(timerInterval);
+                    handleTimeout();
+                }
+            }, 1000);
+        }
+
+        return () => {
+            if (timerInterval) {
+                clearInterval(timerInterval);
+            }
+        }
+    }, [isActive]);
+
+    useEffect(() => {
+        updateTimeLeft(time)
+    }, [time]);
+
+    return (
+        <Time>
+            <div>{timeLeft}</div>
+            <div>{timeLeft}</div>
+        </Time>
+    );
+    }
 
 export default Timer;

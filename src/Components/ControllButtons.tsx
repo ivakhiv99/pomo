@@ -38,15 +38,21 @@ const BigControllButton = styled(Button)`
 
 interface IControllButtons {
     handleSkipStage: () => void;
+    handlePlayBtn: () => void;
+    isPlaying: boolean;
 }
 
-const ControllButtons:FC<IControllButtons> = ({handleSkipStage}) => (
+const ControllButtons:FC<IControllButtons> = ({
+    handleSkipStage,
+    handlePlayBtn,
+    isPlaying
+}) => (
     <ButtonsWrapper>
         <SmallControllButton>
             <Options/>
         </SmallControllButton>
-        <BigControllButton>
-            <Play/>
+        <BigControllButton onClick={handlePlayBtn}>
+            {isPlaying ? <Pause/> : <Play/>}
         </BigControllButton>
         <SmallControllButton onClick={handleSkipStage}>
             <Skip/>

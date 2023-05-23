@@ -26,7 +26,8 @@ enum Stages {
 function App() {
   const [currentStageIndex, setCurrentStageIndex] = useState<number>(0);
   const [currentStage, setCurrentStage] = useState<Stages>(Stages.focus);
-  
+  const [isPlaying, toggleIsPlaying] = useState<boolean>(false);
+
   const stageSequence = [
     Stages.focus,
     Stages.shortBreak,
@@ -55,6 +56,9 @@ function App() {
     }
   }
 
+
+  const toggleTimer = () => toggleIsPlaying(!isPlaying);
+
   //TODO: add notification when skiping stage
   const skipStage = () => {
     if(currentStageIndex == stageSequence.length - 1) {
@@ -67,11 +71,27 @@ function App() {
     }
   };
 
+  //TODO: trigger popup for stage change when time is out
+  const handleTimeout = () => {
+    alert('timeout');
+    toggleTimer();
+    skipStage();
+  }
+
+
   return (
     <AppWrapper>
       <StageDisplay Icon={stagesInfo[currentStage].icon} stage={stagesInfo[currentStage].label}/>
-      <Timer time={stagesInfo[currentStage].lengthInMinutes}/>
-      <ControllButtons handleSkipStage={skipStage}/>
+      <Timer
+        time={stagesInfo[currentStage].lengthInMinutes}
+        isActive={isPlaying}
+        handleTimeout={handleTimeout}
+      />
+      <ControllButtons
+        handlePlayBtn={toggleTimer}
+        handleSkipStage={skipStage}
+        isPlaying={isPlaying}
+      />
     </AppWrapper>
   );
 }
@@ -91,4 +111,5 @@ export default App;
 
 
 // TIME: 
-// 23.05 - start 11:00 
+// 23.05 - start 11:00 - end 14:00 = 0300
+// 23.05 - start 15:30 - end 
