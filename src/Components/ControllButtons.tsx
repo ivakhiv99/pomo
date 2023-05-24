@@ -1,9 +1,10 @@
 import { FC } from "react";
 import styled from "styled-components";
-import { ReactComponent as Options } from '../Icons/Options.svg';
-import { ReactComponent as Pause } from '../Icons/Pause.svg';
-import { ReactComponent as Play } from '../Icons/Play.svg';
-import { ReactComponent as Skip } from '../Icons/Skip.svg';
+import { ReactComponent as Options } from '../Assets/icons/Options.svg';
+import { ReactComponent as Pause } from '../Assets/icons/Pause.svg';
+import { ReactComponent as Play } from '../Assets/icons/Play.svg';
+import { ReactComponent as Skip } from '../Assets/icons/Skip.svg';
+import CustomIcon from './utils/IconWrapper';
 
 const ButtonsWrapper = styled.div`
     display: flex;
@@ -17,13 +18,15 @@ const Button = styled.button`
     justify-content: center;
     align-items: center;
     cursor: pointer;
+    border: none;
+    outline: none;
 `;
 
 const SmallControllButton = styled(Button)`
     width: 80px;
     height: 80px;
     padding: 24px;
-    background: rgba(255, 76, 76, 0.15);
+    background: ${props => props.theme.colours.buttons};
     border-radius: 24px;
 `;
 
@@ -31,7 +34,7 @@ const BigControllButton = styled(Button)`
     width: 128px;
     height: 96px;
     padding: 32px 48px;
-    background: rgba(255, 76, 76, 0.71);
+    background: ${props => props.theme.colours.mainBtn};
     border-radius: 32px;
     margin: 0 16px;
 `;
@@ -49,13 +52,17 @@ const ControllButtons:FC<IControllButtons> = ({
 }) => (
     <ButtonsWrapper>
         <SmallControllButton>
-            <Options/>
+            <CustomIcon icon={Options}/>
         </SmallControllButton>
         <BigControllButton onClick={handlePlayBtn}>
-            {isPlaying ? <Pause/> : <Play/>}
+            { 
+                isPlaying 
+                ? <CustomIcon icon={Pause}/>
+                : <CustomIcon icon={Play}/>
+            }
         </BigControllButton>
         <SmallControllButton onClick={handleSkipStage}>
-            <Skip/>
+            <CustomIcon icon={Skip}/>
         </SmallControllButton>
     </ButtonsWrapper>
 )

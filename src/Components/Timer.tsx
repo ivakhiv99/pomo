@@ -6,7 +6,7 @@ const Time = styled.div`
     height: 436px;
     font-size: 256px;
     line-height: 85%;
-    color: #471515;
+    color: ${props => props.theme.colours.textAndIcons};
     font-family: 'Roboto Flex';
 `;
 
@@ -17,8 +17,7 @@ interface ITimer {
 }
 
 
-//TODO: format time here?
-//TODO: handle pause
+//BUG: handle pause
 const Timer:FC<ITimer> = ({time, isActive, handleTimeout}) => {
     const [minutesLeft, updateMinutesLeft] = useState<string>('');
     const [secondsLeft, updateSecondsLeft] = useState<string>('');

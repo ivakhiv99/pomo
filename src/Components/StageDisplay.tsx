@@ -1,14 +1,15 @@
 import { FC } from "react";
 import styled from "styled-components";
+import CustomIcon from './utils/IconWrapper';
 
 const Stage = styled.div`
     /* min-width: 136px; */
     width: auto;
     max-width: 195px;
     height: 48px;
-    border: 2px solid #471515;
+    border: 2px solid ${props => props.theme.colours.textAndIcons};
     border-radius: 9999px;
-    background: rgba(255, 76, 76, 0.15);
+    background: ${props => props.theme.colours.buttons};
 
     display: flex;
     flex-direction: row;
@@ -34,7 +35,7 @@ interface IStageDisplay {
 
 const StageDisplay:FC<IStageDisplay> = ({ Icon, stage }) => (
     <Stage>
-        <Icon/>
+        <CustomIcon icon={Icon}/>
         {stage}
     </Stage>
 )

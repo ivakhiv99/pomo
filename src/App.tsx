@@ -1,9 +1,9 @@
 import { useState } from 'react';
-import styled from 'styled-components';
+import styled, { ThemeProvider } from 'styled-components';
 import { StageDisplay, Timer, ControllButtons } from './Components';
-import {ReactComponent as FocusIcon} from './Icons/Focus.svg';
-import {ReactComponent as BreakIcon} from './Icons/Break.svg';
-
+import {ReactComponent as FocusIcon} from './Assets/icons/Focus.svg';
+import {ReactComponent as BreakIcon} from './Assets/icons/Break.svg';
+import {focusStage, shortBreakStage, longBreakStage} from './Assets/themes';
 
 const AppWrapper = styled.div`
   width: 100%;
@@ -12,7 +12,7 @@ const AppWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  background-color: #FFF2F2;
+  background-color: ${props => props.theme.colours.backgound};
 `;
 
 
@@ -41,18 +41,21 @@ function App() {
       icon: FocusIcon,
       lengthInMinutes: 25,
       value: Stages.focus,
+      theme: focusStage,
     },
     [Stages.shortBreak]: {
       label: "Short Break",
       icon: BreakIcon,
       lengthInMinutes: 5,
       value: Stages.shortBreak,
+      theme: shortBreakStage,
     },
     [Stages.longBreak]: {
       label: "Long Break",
       icon: BreakIcon,
       lengthInMinutes: 15,
       value: Stages.longBreak,
+      theme: longBreakStage,
     }
   }
 
@@ -80,19 +83,21 @@ function App() {
 
 
   return (
-    <AppWrapper>
-      <StageDisplay Icon={stagesInfo[currentStage].icon} stage={stagesInfo[currentStage].label}/>
-      <Timer
-        time={stagesInfo[currentStage].lengthInMinutes}
-        isActive={isPlaying}
-        handleTimeout={handleTimeout}
-      />
-      <ControllButtons
-        handlePlayBtn={toggleTimer}
-        handleSkipStage={skipStage}
-        isPlaying={isPlaying}
-      />
-    </AppWrapper>
+    <ThemeProvider theme={stagesInfo[currentStage].theme}>
+      <AppWrapper>
+        <StageDisplay Icon={stagesInfo[currentStage].icon} stage={stagesInfo[currentStage].label}/>
+        <Timer
+          time={stagesInfo[currentStage].lengthInMinutes}
+          isActive={isPlaying}
+          handleTimeout={handleTimeout}
+        />
+        <ControllButtons
+          handlePlayBtn={toggleTimer}
+          handleSkipStage={skipStage}
+          isPlaying={isPlaying}
+        />
+      </AppWrapper>
+    </ThemeProvider>
   );
 }
 
@@ -116,4 +121,4 @@ export default App;
 // 23.05 - start 19:45 - end 20:00 = 0015
 // 23.05 - start 20:15 - end 20:30 = 0015
 
-
+// 24.05 - start 12:00 - end 
