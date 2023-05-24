@@ -16,8 +16,6 @@ interface ITimer {
     handleTimeout: () => void;
 }
 
-
-//BUG: handle pause
 const Timer:FC<ITimer> = ({time, isActive, handleTimeout}) => {
     const [minutesLeft, updateMinutesLeft] = useState<string>('');
     const [secondsLeft, updateSecondsLeft] = useState<string>('');
@@ -31,9 +29,8 @@ const Timer:FC<ITimer> = ({time, isActive, handleTimeout}) => {
 
     useEffect(() => {
         let timerInterval:number;
-
+        let seconds = totalSeconds;
         if(isActive) {
-            let seconds = totalSeconds;
             timerInterval = window.setInterval(() => {
                 seconds = seconds - 1;
                 handleTimeFormating(seconds);
@@ -54,7 +51,7 @@ const Timer:FC<ITimer> = ({time, isActive, handleTimeout}) => {
     const handleTimeFormating = (seconds: number) => {
         const m = Math.floor(seconds/60);
         const s = seconds - m*60;
-        
+        updateTotalSeconds(seconds);
         updateMinutesLeft(formatTime(m)); //TODO: add memo;
         updateSecondsLeft(formatTime(s));
     }

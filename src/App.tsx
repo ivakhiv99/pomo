@@ -22,7 +22,6 @@ enum Stages {
   longBreak,
 }
 
-// TODO: store stages as enums? strings + icon
 function App() {
   const [currentStageIndex, setCurrentStageIndex] = useState<number>(0);
   const [currentStage, setCurrentStage] = useState<Stages>(Stages.focus);
@@ -59,11 +58,14 @@ function App() {
     }
   }
 
-
   const toggleTimer = () => toggleIsPlaying(!isPlaying);
 
   //TODO: add notification when skiping stage
   const skipStage = () => {
+    if(isPlaying){
+      toggleTimer();
+    }
+
     if(currentStageIndex == stageSequence.length - 1) {
       setCurrentStageIndex(0);
       setCurrentStage(stageSequence[0]);
@@ -77,7 +79,6 @@ function App() {
   //TODO: trigger popup for stage change when time is out
   const handleTimeout = () => {
     alert('timeout');
-    toggleTimer();
     skipStage();
   }
 
@@ -107,12 +108,8 @@ export default App;
 //TODO: add conditional favicon & change it dependign on app state
 
 //TODO: basic view components:
-// - state display component
-// - timer 
 // - buttons :
 //    + settings
-//    + play/pause
-//    + skip stage
 
 
 // TIME: 
@@ -121,4 +118,6 @@ export default App;
 // 23.05 - start 19:45 - end 20:00 = 0015
 // 23.05 - start 20:15 - end 20:30 = 0015
 
-// 24.05 - start 12:00 - end 
+// 24.05 - start 12:00 - end 13:15 = 0115
+// 24.05 - start 14:00 - end 
+
