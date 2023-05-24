@@ -12,6 +12,7 @@ const ButtonsWrapper = styled.div`
     align-items: center;
 `;
 
+//TODO: reuse this
 const Button = styled.button`
     display: flex;
     flex-direction: row;
@@ -20,6 +21,7 @@ const Button = styled.button`
     cursor: pointer;
     border: none;
     outline: none;
+    background-color: transparent;
 `;
 
 const SmallControllButton = styled(Button)`
@@ -42,26 +44,39 @@ const BigControllButton = styled(Button)`
 interface IControllButtons {
     handleSkipStage: () => void;
     handlePlayBtn: () => void;
+    openSettings: () => void;
     isPlaying: boolean;
+    areDisabled: boolean;
 }
 
 const ControllButtons:FC<IControllButtons> = ({
     handleSkipStage,
     handlePlayBtn,
-    isPlaying
+    openSettings,
+    isPlaying,
+    areDisabled,
 }) => (
     <ButtonsWrapper>
-        <SmallControllButton>
+        <SmallControllButton
+            onClick={openSettings}
+            disabled={areDisabled}    
+        >
             <CustomIcon icon={Options}/>
         </SmallControllButton>
-        <BigControllButton onClick={handlePlayBtn}>
+        <BigControllButton
+            onClick={handlePlayBtn}
+            disabled={areDisabled}
+        >
             { 
                 isPlaying 
                 ? <CustomIcon icon={Pause}/>
                 : <CustomIcon icon={Play}/>
             }
         </BigControllButton>
-        <SmallControllButton onClick={handleSkipStage}>
+        <SmallControllButton
+            onClick={handleSkipStage}
+            disabled={areDisabled}    
+        >
             <CustomIcon icon={Skip}/>
         </SmallControllButton>
     </ButtonsWrapper>

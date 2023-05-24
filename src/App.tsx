@@ -1,11 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
-import { StageDisplay, Timer, ControllButtons } from './Components';
+import { StageDisplay, Timer, ControllButtons, Settings } from './Components';
 import {ReactComponent as FocusIcon} from './Assets/icons/Focus.svg';
 import {ReactComponent as BreakIcon} from './Assets/icons/Break.svg';
 import {focusStage, shortBreakStage, longBreakStage} from './Assets/themes';
 
-const AppWrapper = styled.div`
+interface StyleProps {
+  blured: boolean;
+}
+
+const AppWrapper = styled.div<StyleProps>`
   width: 100%;
   height: 100vh;
   display: flex;
@@ -13,6 +17,7 @@ const AppWrapper = styled.div`
   justify-content: center;
   align-items: center;
   background-color: ${props => props.theme.colours.backgound};
+  filter: ${props => props.blured ? 'blur(3px)':'none'};
 `;
 
 
@@ -26,6 +31,7 @@ function App() {
   const [currentStageIndex, setCurrentStageIndex] = useState<number>(0);
   const [currentStage, setCurrentStage] = useState<Stages>(Stages.focus);
   const [isPlaying, toggleIsPlaying] = useState<boolean>(false);
+  const [settingsOpen, setSettingsOpen] = useState<boolean>(true);
 
   const stageSequence = [
     Stages.focus,
@@ -82,10 +88,18 @@ function App() {
     skipStage();
   }
 
+  useEffect(() => {
+    if(settingsOpen) {
+      toggleIsPlaying(false);
+    }
+  }, [settingsOpen]);
+  
+  const toggleSettingsOpen = () => setSettingsOpen(!settingsOpen); 
 
   return (
     <ThemeProvider theme={stagesInfo[currentStage].theme}>
-      <AppWrapper>
+      {settingsOpen && <Settings handleClose={toggleSettingsOpen}/>} 
+      <AppWrapper blured={settingsOpen}>
         <StageDisplay Icon={stagesInfo[currentStage].icon} stage={stagesInfo[currentStage].label}/>
         <Timer
           time={stagesInfo[currentStage].lengthInMinutes}
@@ -93,9 +107,11 @@ function App() {
           handleTimeout={handleTimeout}
         />
         <ControllButtons
+          openSettings={toggleSettingsOpen}
           handlePlayBtn={toggleTimer}
           handleSkipStage={skipStage}
           isPlaying={isPlaying}
+          areDisabled={settingsOpen}
         />
       </AppWrapper>
     </ThemeProvider>
@@ -119,5 +135,9 @@ export default App;
 // 23.05 - start 20:15 - end 20:30 = 0015
 
 // 24.05 - start 12:00 - end 13:15 = 0115
-// 24.05 - start 14:00 - end 
+// 24.05 - start 14:00 - end 14:15 = 0015
+// 24.05 - start 15:45 - end 16:00 = 0015
+// 24.05 - start 16:45 - end 
+
+
 
