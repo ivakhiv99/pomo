@@ -1,9 +1,10 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useReducer } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
 import { StageDisplay, Timer, ControllButtons, Settings } from './Components';
 import {ReactComponent as FocusIcon} from './Assets/icons/Focus.svg';
 import {ReactComponent as BreakIcon} from './Assets/icons/Break.svg';
 import {focusStage, shortBreakStage, longBreakStage} from './Assets/themes';
+import {FormState} from './Assets/types';
 
 interface StyleProps {
   blured: boolean;
@@ -27,11 +28,46 @@ enum Stages {
   longBreak,
 }
 
+const initialStagesInfo = {
+  [Stages.focus]: {
+    label: "Focus",
+    icon: FocusIcon,
+    lengthInMinutes: 25,
+    value: Stages.focus,
+    theme: focusStage,
+  },
+  [Stages.shortBreak]: {
+    label: "Short Break",
+    icon: BreakIcon,
+    lengthInMinutes: 5,
+    value: Stages.shortBreak,
+    theme: shortBreakStage,
+  },
+  [Stages.longBreak]: {
+    label: "Long Break",
+    icon: BreakIcon,
+    lengthInMinutes: 15,
+    value: Stages.longBreak,
+    theme: longBreakStage,
+  }
+}
+
+const reducer = (initialStagesInfo: any, action: any) => {
+  return {
+      ...initialStagesInfo,
+      [action.key]: {
+        ...initialStagesInfo[action.key],
+        lengthInMinutes: action.value,
+      },
+  }
+}
+
 function App() {
   const [currentStageIndex, setCurrentStageIndex] = useState<number>(0);
   const [currentStage, setCurrentStage] = useState<Stages>(Stages.focus);
   const [isPlaying, toggleIsPlaying] = useState<boolean>(false);
-  const [settingsOpen, setSettingsOpen] = useState<boolean>(true);
+  const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
+  const [stagesInfo, dispatch] = useReducer(reducer, initialStagesInfo);
 
   const stageSequence = [
     Stages.focus,
@@ -40,31 +76,22 @@ function App() {
     Stages.longBreak,
   ];
 
-  const stagesInfo = {
-    [Stages.focus]: {
-      label: "Focus",
-      icon: FocusIcon,
-      lengthInMinutes: 25,
-      value: Stages.focus,
-      theme: focusStage,
-    },
-    [Stages.shortBreak]: {
-      label: "Short Break",
-      icon: BreakIcon,
-      lengthInMinutes: 5,
-      value: Stages.shortBreak,
-      theme: shortBreakStage,
-    },
-    [Stages.longBreak]: {
-      label: "Long Break",
-      icon: BreakIcon,
-      lengthInMinutes: 15,
-      value: Stages.longBreak,
-      theme: longBreakStage,
-    }
-  }
-
   const toggleTimer = () => toggleIsPlaying(!isPlaying);
+
+  const updateStageLength = (newValues: FormState) => {
+    dispatch({
+      key: Stages.focus,
+      value: newValues.focusLength,
+    });
+    dispatch({
+      key: Stages.shortBreak,
+      value: newValues.shortBreakLength,
+    });
+    dispatch({
+      key: Stages.longBreak,
+      value: newValues.longBreakLength,
+    });
+  }
 
   //TODO: add notification when skiping stage
   const skipStage = () => {
@@ -95,10 +122,24 @@ function App() {
   }, [settingsOpen]);
   
   const toggleSettingsOpen = () => setSettingsOpen(!settingsOpen); 
-
+  const closeSettings = (newValues: FormState) => {
+    updateStageLength(newValues);
+    setSettingsOpen(false);
+  }
   return (
     <ThemeProvider theme={stagesInfo[currentStage].theme}>
-      {settingsOpen && <Settings handleClose={toggleSettingsOpen} theme={stagesInfo[currentStage].theme}/>} 
+      { settingsOpen 
+        && 
+        <Settings
+          values={{
+            focusLength: stagesInfo[Stages.focus].lengthInMinutes,
+            shortBreakLength: stagesInfo[Stages.shortBreak].lengthInMinutes,
+            longBreakLength: stagesInfo[Stages.longBreak].lengthInMinutes,
+          }}
+          handleClose={closeSettings}
+          theme={stagesInfo[currentStage].theme}
+        />
+      } 
       <AppWrapper blured={settingsOpen}>
         <StageDisplay Icon={stagesInfo[currentStage].icon} stage={stagesInfo[currentStage].label}/>
         <Timer

@@ -4,6 +4,7 @@ import CustomIcon from './utils/IconWrapper';
 import { ReactComponent as Close } from '../Assets/icons/Close.svg';
 import IosSwitchMaterialUi from 'ios-switch-material-ui';
 import Input from './Input';
+import {FormState} from '../Assets/types';
 
 const SettingsWrapper = styled.div`
     width: 448px;
@@ -66,15 +67,12 @@ const Button = styled.button`
 `;
 
 interface ISettings {
-    handleClose: () => void;
+    values: FormState
+    handleClose: (settings: FormState) => void;
     theme: any;
 };
 
-type FormState = {
-    focusLength: number;
-    shortBreakLength: number;
-    longBreakLength: number;
-};
+
 
 type FormUpdateAction = {
     key: string, value: number | boolean;
@@ -82,8 +80,8 @@ type FormUpdateAction = {
 
 const initialState: FormState = {
     focusLength: 25,
-    shortBreakLength: 25,
-    longBreakLength: 25,
+    shortBreakLength: 5,
+    longBreakLength: 15,
 };
 
 const reducer = (formState: FormState, action: FormUpdateAction) => {
@@ -93,9 +91,23 @@ const reducer = (formState: FormState, action: FormUpdateAction) => {
     }
 }
 
-const Settings:FC<ISettings> = ({handleClose, theme}) => {
+const Settings:FC<ISettings> = ({values, handleClose, theme}) => {
     const [formState, dispatch] = useReducer(reducer, initialState);
 
+    useEffect(() => {
+        dispatch({
+            key: 'focusLength',
+            value: values.focusLength,
+          });
+          dispatch({
+            key: 'shortBreakLength',
+            value: values.shortBreakLength,
+          });
+          dispatch({
+            key: 'longBreakLength',
+            value: values.longBreakLength,
+          });
+    }, []);
 
     const handleInput = (inputName: string, value: number | boolean) => {
         dispatch({
@@ -104,13 +116,15 @@ const Settings:FC<ISettings> = ({handleClose, theme}) => {
         });
     }
 
+    const saveAndClose = () => handleClose(formState);
+
     return (
         <SettingsWrapper>
             <FlexRowSpaceBetween>
                 <ModalTitle>
                     Settings
                 </ModalTitle>
-                <Button onClick={handleClose}>
+                <Button onClick={saveAndClose}>
                     <CustomIcon icon={Close}/>
                 </Button>
             </FlexRowSpaceBetween>
