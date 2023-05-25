@@ -21,7 +21,7 @@ const longBreakStage = {
         backgound: '#F2F9FF',
         buttons: 'rgba(76, 172, 255, 0.15)',
         mainBtn: 'rgba(76, 172, 255, 0.62)',
-        textAndIcons: '#14401D',
+        textAndIcons: '#153047',
     }
 };
 

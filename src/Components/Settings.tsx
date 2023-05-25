@@ -1,8 +1,9 @@
-import {FC} from 'react';
+import {FC, useEffect, useReducer} from 'react';
 import styled from "styled-components";
 import CustomIcon from './utils/IconWrapper';
 import { ReactComponent as Close } from '../Assets/icons/Close.svg';
-
+import IosSwitchMaterialUi from 'ios-switch-material-ui';
+import Input from './Input';
 
 const SettingsWrapper = styled.div`
     width: 448px;
@@ -13,7 +14,6 @@ const SettingsWrapper = styled.div`
     top:50%;
     transform: translate(-50%, -50%);
     background: ${props => props.theme.colours.backgound};
-
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -67,9 +67,43 @@ const Button = styled.button`
 
 interface ISettings {
     handleClose: () => void;
+    theme: any;
+};
+
+type FormState = {
+    focusLength: number;
+    shortBreakLength: number;
+    longBreakLength: number;
+};
+
+type FormUpdateAction = {
+    key: string, value: number | boolean;
+};
+
+const initialState: FormState = {
+    focusLength: 25,
+    shortBreakLength: 25,
+    longBreakLength: 25,
+};
+
+const reducer = (formState: FormState, action: FormUpdateAction) => {
+    return {
+        ...formState,
+        [action.key]: action.value,
+    }
 }
 
-const Settings:FC<ISettings> = ({handleClose}) => {
+const Settings:FC<ISettings> = ({handleClose, theme}) => {
+    const [formState, dispatch] = useReducer(reducer, initialState);
+
+
+    const handleInput = (inputName: string, value: number | boolean) => {
+        dispatch({
+            key: inputName,
+            value: value,
+        });
+    }
+
     return (
         <SettingsWrapper>
             <FlexRowSpaceBetween>
@@ -84,41 +118,51 @@ const Settings:FC<ISettings> = ({handleClose}) => {
                 <Label>
                     Dark mode
                 </Label>
-                <Button onClick={handleClose}>
-                    <CustomIcon icon={Close}/>
-                </Button>
+                <IosSwitchMaterialUi 
+                    colorKnobOnLeft={theme.colours.backgound}
+                    colorKnobOnRight={theme.colours.mainBtn}
+                    colorSwitch={theme.colours.buttons}
+                />
             </FlexRowSpaceBetween>
             <FlexRowSpaceBetween>
                 <Label>
                     Focus length   
                 </Label>
-                <Button onClick={handleClose}>
-                    <CustomIcon icon={Close}/>
-                </Button>
+                <Input
+                    name={'focusLength'}
+                    value={formState.focusLength}
+                    onChange={handleInput}
+                />
             </FlexRowSpaceBetween>
             <FlexRowSpaceBetween>
                 <Label>
                     Short break length
                 </Label>
-                <Button onClick={handleClose}>
-                    <CustomIcon icon={Close}/>
-                </Button>
+                <Input
+                    name={'shortBreakLength'}
+                    value={formState.shortBreakLength}
+                    onChange={handleInput}
+                />
             </FlexRowSpaceBetween>
             <FlexRowSpaceBetween>
                 <Label>
                     Long break length
                 </Label>
-                <Button onClick={handleClose}>
-                    <CustomIcon icon={Close}/>
-                </Button>
+                <Input
+                    name={'longBreakLength'}
+                    value={formState.longBreakLength}
+                    onChange={handleInput}
+                />
             </FlexRowSpaceBetween>
             <FlexRowSpaceBetween>
                 <Label>
                     Notifications
                 </Label>
-                <Button onClick={handleClose}>
-                    <CustomIcon icon={Close}/>
-                </Button>
+                <IosSwitchMaterialUi 
+                    colorKnobOnLeft={theme.colours.backgound}
+                    colorKnobOnRight={theme.colours.mainBtn}
+                    colorSwitch={theme.colours.buttons}
+                />
             </FlexRowSpaceBetween>
         </SettingsWrapper>
     );

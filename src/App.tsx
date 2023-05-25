@@ -98,7 +98,7 @@ function App() {
 
   return (
     <ThemeProvider theme={stagesInfo[currentStage].theme}>
-      {settingsOpen && <Settings handleClose={toggleSettingsOpen}/>} 
+      {settingsOpen && <Settings handleClose={toggleSettingsOpen} theme={stagesInfo[currentStage].theme}/>} 
       <AppWrapper blured={settingsOpen}>
         <StageDisplay Icon={stagesInfo[currentStage].icon} stage={stagesInfo[currentStage].label}/>
         <Timer
@@ -132,12 +132,15 @@ export default App;
 // 23.05 - start 11:00 - end 14:00 = 0300
 // 23.05 - start 15:30 - end 16:45 = 0115
 // 23.05 - start 19:45 - end 20:00 = 0015
-// 23.05 - start 20:15 - end 20:30 = 0015
+// 23.05 - start 20:15 - end 20:30 = 0015  = 0445
 
 // 24.05 - start 12:00 - end 13:15 = 0115
 // 24.05 - start 14:00 - end 14:15 = 0015
 // 24.05 - start 15:45 - end 16:00 = 0015
-// 24.05 - start 16:45 - end 
+// 24.05 - start 16:45 - end 18:15 = 0115  = 0200
+
+// 25.05 - start 11:15 - end 12:00 = 0045
+// 25.05 - start 12:15 - end 
 
 
 
