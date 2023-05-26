@@ -3,14 +3,13 @@ import styled from "styled-components";
 import CustomIcon from './utils/IconWrapper';
 
 const Stage = styled.div`
-    /* min-width: 136px; */
     width: auto;
     max-width: 195px;
     height: 48px;
     border: 2px solid ${props => props.theme.colours.textAndIcons};
     border-radius: 9999px;
     background: ${props => props.theme.colours.buttons};
-
+    color: ${props => props.theme.colours.textAndIcons};
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -24,7 +23,6 @@ const Stage = styled.div`
     line-height: 28px;
 
 `;
-
 
 interface IStageDisplay {
     Icon: React.FunctionComponent<React.SVGProps<SVGSVGElement> & {

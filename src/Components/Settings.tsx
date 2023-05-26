@@ -21,7 +21,7 @@ const ModalWrapper = styled.div`
     align-items: center;
 
     padding: 0px 0px 16px;
-    box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.039), 0px 5.5px 16px rgba(0, 0, 0, 0.19);
+    box-shadow: 0px 1px 6px ${props => props.theme.colours.buttons} , 0px 5.5px 16px ${props => props.theme.colours.backgound};
     border-radius: 24px;
     z-index: 99;
 `;
@@ -150,6 +150,8 @@ const Settings:FC<ISettings> = ({
                     colorKnobOnLeft={theme.colours.backgound}
                     colorKnobOnRight={theme.colours.mainBtn}
                     colorSwitch={theme.colours.buttons}
+                    knobOnLeft={darkTheme}
+                    onChange={toggleDarkTheme}
                 />
             </FlexRowSpaceBetween>
             <FlexRowSpaceBetween>

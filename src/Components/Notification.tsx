@@ -21,7 +21,7 @@ const ModalWrapper = styled.div`
     align-items: center;
 
     padding: 0px 0px 16px;
-    box-shadow: 0px 1px 6px rgba(0, 0, 0, 0.039), 0px 5.5px 16px rgba(0, 0, 0, 0.19);
+    box-shadow: 0px 1px 6px ${props => props.theme.colours.buttons} , 0px 5.5px 16px ${props => props.theme.colours.backgound};
     border-radius: 24px;
     z-index: 99;
 `;
@@ -75,16 +75,6 @@ const Label = styled.div`
     color: ${props => props.theme.colours.textAndIcons};
 `;
 
-const FlexRowSpaceBetween = styled.div`
-    width: 100%;
-    height: 64px;
-    padding: 24px;
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-`;
-
 interface INotification {
     isTimeout: boolean;
     handleClose: () => void;
@@ -94,21 +84,17 @@ interface INotification {
     }>;
 }
 
-const Notification:FC<INotification> = ({isTimeout, handleClose, nextStage, nextStageIcon}) => {
-    console.log('Notification:  ', {isTimeout})
-    return (
-       <NotificationWrapper>
-                <ModalTitle>
-                    Stage ended
-                </ModalTitle>
-                <Label>{ isTimeout ? 'Continuing' : 'Skipping'} to next stage:</Label>
-                <StageDisplay Icon={nextStageIcon} stage={nextStage}/>
-            <BigControllButton onClick={handleClose}>
-                <CustomIcon icon={Play}/>
-            </BigControllButton>
-       </NotificationWrapper>
-    )
-};
-
+const Notification:FC<INotification> = ({isTimeout, handleClose, nextStage, nextStageIcon}) => (
+   <NotificationWrapper>
+            <ModalTitle>
+                Stage ended
+            </ModalTitle>
+            <Label>{ isTimeout ? 'Continuing' : 'Skipping'} to next stage:</Label>
+            <StageDisplay Icon={nextStageIcon} stage={nextStage}/>
+        <BigControllButton onClick={handleClose}>
+            <CustomIcon icon={Play}/>
+        </BigControllButton>
+   </NotificationWrapper>
+);
 
 export default Notification;

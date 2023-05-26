@@ -6,16 +6,12 @@ import CustomIcon from './utils/IconWrapper';
 const InputWrapper = styled.div`
     display: flex;
     flex-direction: row;
-
 `;
 
 const StyledInput = styled.input`
-    background: transparent;
-    /* background: red; */
-    
+    background: transparent; 
     border: none;
     outline: none;
-
     width: 66px;
     height: 40px;
     font-weight: 400;
@@ -23,11 +19,9 @@ const StyledInput = styled.input`
     line-height: 19px;
     letter-spacing: 0.15px;
     color: ${props => props.theme.colours.textAndIcons};
-    border: 1px solid rgba(0, 0, 0, 0.15);
+    border: 1px solid ${props => props.theme.colours.inputBorders};
     border-top-left-radius: 8px;
     border-bottom-left-radius: 8px;
-
-
     display: flex;
     align-items: center;
     text-align: center;
@@ -61,18 +55,17 @@ const InputBtn = styled(Button)`
 `;
 
 const InputBtnTop = styled(InputBtn)`
-    border-top: 1px solid rgba(0, 0, 0, 0.15);
-    border-right: 1px solid rgba(0, 0, 0, 0.15);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    border-top: 1px solid ${props => props.theme.colours.inputBorders};
+    border-right: 1px solid ${props => props.theme.colours.inputBorders};
+    border-bottom: 1px solid ${props => props.theme.colours.inputBorders};
     border-top-right-radius: 8px;
 `;
 
 const InputBtnBottom = styled(InputBtn)`
-    border-right: 1px solid rgba(0, 0, 0, 0.15);
-    border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+    border-right: 1px solid ${props => props.theme.colours.inputBorders};
+    border-bottom: 1px solid ${props => props.theme.colours.inputBorders};
     border-bottom-right-radius: 8px;
 `;
-
 
 const IconUp = styled(Play)`
     width: 12px;
@@ -86,8 +79,6 @@ const IconDown = styled(Play)`
     transform: rotate(90deg);
 `;
 
-
-
 interface IInput {
     name: string;
     value: number;
@@ -99,7 +90,6 @@ const Input:FC<IInput> = ({
     value,
     onChange, 
 }) => {
-
 
     const increment = () => {
         onChange(name, value+1);

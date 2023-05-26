@@ -3,8 +3,15 @@ import styled, { ThemeProvider } from 'styled-components';
 import { StageDisplay, Timer, ControllButtons, Settings, Notification } from './Components';
 import {ReactComponent as FocusIcon} from './Assets/icons/Focus.svg';
 import {ReactComponent as BreakIcon} from './Assets/icons/Break.svg';
-import {focusStage, shortBreakStage, longBreakStage} from './Assets/themes';
 import {FormState, Stages} from './Assets/types';
+import { 
+  focusStage,
+  shortBreakStage,
+  longBreakStage,
+  focusStageDark,
+  shortBreakStageDark,
+  longBreakStageDark,
+} from './Assets/themes';
 
 interface StyleProps {
   blured: boolean;
@@ -28,6 +35,7 @@ const initialStagesInfo = {
     lengthInMinutes: 25,
     value: Stages.focus,
     theme: focusStage,
+    darkTheme: focusStageDark,
   },
   [Stages.shortBreak]: {
     label: "Short Break",
@@ -35,6 +43,7 @@ const initialStagesInfo = {
     lengthInMinutes: 5,
     value: Stages.shortBreak,
     theme: shortBreakStage,
+    darkTheme: shortBreakStageDark,
   },
   [Stages.longBreak]: {
     label: "Long Break",
@@ -42,6 +51,7 @@ const initialStagesInfo = {
     lengthInMinutes: 15,
     value: Stages.longBreak,
     theme: longBreakStage,
+    darkTheme: longBreakStageDark,
   }
 }
 
@@ -65,6 +75,7 @@ function App() {
   const [notificationsOn, setNotificationsOn] = useState<boolean>(true);
   const [notificationActive, toggleNotificationActive] = useState<boolean>(false);
   const [notificationTimeout, setNotificationTimeout] = useState<boolean>(false);
+  const [darkMode, setDarkMode] = useState<boolean>(false);
 
 
   const stageSequence = [
@@ -147,17 +158,17 @@ function App() {
   }
 
   const toggleNotifications = () => setNotificationsOn(!notificationsOn);
-
+  const toggleDarkMode = () => setDarkMode(!darkMode);
   //BUG: if two stages in a row have the same length after one timed out, the other one stays at 0 seconds left.   
   return (
-    <ThemeProvider theme={stagesInfo[currentStage].theme}>
+    <ThemeProvider theme={stagesInfo[currentStage][darkMode ? 'theme' : 'darkTheme']}>
       { settingsOpen 
         && 
         <Settings
           notifications={notificationsOn}
           toggleNotifications={toggleNotifications}
-          darkTheme={false}
-          toggleDarkTheme={()=>{}}
+          darkTheme={darkMode}
+          toggleDarkTheme={toggleDarkMode}
           values={{
             focusLength: stagesInfo[Stages.focus].lengthInMinutes,
             shortBreakLength: stagesInfo[Stages.shortBreak].lengthInMinutes,
@@ -218,5 +229,6 @@ export default App;
 // 25.05 - start 16:00 - end 17:00 = 0100  = 0315
 
 // 26.05 - start 13:30 - end 13:45 = 0015
-// 26.05 - start 14:45 - end 
+// 26.05 - start 14:45 - end 15:30 = 0045
+// 26.05 - start 16:15 -
 
