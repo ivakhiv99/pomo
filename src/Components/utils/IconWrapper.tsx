@@ -6,7 +6,7 @@ interface ICustomIcon {
         title?: string | undefined;
     }>
 }
-//TODO: use interface
+
 const CustomIcon:FC<ICustomIcon> = ({icon}) => {
     const NewIcon = styled(icon)`
         & path {

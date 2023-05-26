@@ -6,7 +6,8 @@ import IosSwitchMaterialUi from 'ios-switch-material-ui';
 import Input from './Input';
 import {FormState} from '../Assets/types';
 
-const SettingsWrapper = styled.div`
+//TODO: reuse this;
+const ModalWrapper = styled.div`
     width: 448px;
     height: 418px;
 
@@ -25,6 +26,7 @@ const SettingsWrapper = styled.div`
     z-index: 99;
 `;
 
+//TODO: reuse this;
 const FlexRowSpaceBetween = styled.div`
     width: 100%;
     height: 64px;
@@ -35,6 +37,7 @@ const FlexRowSpaceBetween = styled.div`
     justify-content: space-between;
 `;
 
+//TODO: reuse this;
 const ModalTitle = styled.div`
     font-family: 'Roboto Flex';
     font-style: normal;
@@ -45,6 +48,7 @@ const ModalTitle = styled.div`
     color: ${props => props.theme.colours.textAndIcons};
 `;
 
+//TODO: reuse this;
 const Label = styled.div`
     font-family: 'Roboto Flex';
     font-style: normal;
@@ -70,9 +74,11 @@ interface ISettings {
     values: FormState
     handleClose: (settings: FormState) => void;
     theme: any;
+    notifications: boolean;
+    darkTheme: boolean;
+    toggleNotifications: () => void;
+    toggleDarkTheme: () => void;
 };
-
-
 
 type FormUpdateAction = {
     key: string, value: number | boolean;
@@ -91,22 +97,30 @@ const reducer = (formState: FormState, action: FormUpdateAction) => {
     }
 }
 
-const Settings:FC<ISettings> = ({values, handleClose, theme}) => {
+const Settings:FC<ISettings> = ({
+    values,
+    handleClose,
+    theme,
+    notifications,
+    darkTheme,
+    toggleNotifications,
+    toggleDarkTheme,
+}) => {
     const [formState, dispatch] = useReducer(reducer, initialState);
 
     useEffect(() => {
         dispatch({
-            key: 'focusLength',
-            value: values.focusLength,
-          });
-          dispatch({
-            key: 'shortBreakLength',
-            value: values.shortBreakLength,
-          });
-          dispatch({
-            key: 'longBreakLength',
-            value: values.longBreakLength,
-          });
+          key: 'focusLength',
+          value: values.focusLength,
+        });
+        dispatch({
+          key: 'shortBreakLength',
+          value: values.shortBreakLength,
+        });
+        dispatch({
+          key: 'longBreakLength',
+          value: values.longBreakLength,
+        });
     }, []);
 
     const handleInput = (inputName: string, value: number | boolean) => {
@@ -119,7 +133,7 @@ const Settings:FC<ISettings> = ({values, handleClose, theme}) => {
     const saveAndClose = () => handleClose(formState);
 
     return (
-        <SettingsWrapper>
+        <ModalWrapper>
             <FlexRowSpaceBetween>
                 <ModalTitle>
                     Settings
@@ -176,9 +190,11 @@ const Settings:FC<ISettings> = ({values, handleClose, theme}) => {
                     colorKnobOnLeft={theme.colours.backgound}
                     colorKnobOnRight={theme.colours.mainBtn}
                     colorSwitch={theme.colours.buttons}
+                    knobOnLeft={!notifications}
+                    onChange={toggleNotifications}
                 />
             </FlexRowSpaceBetween>
-        </SettingsWrapper>
+        </ModalWrapper>
     );
 };
 

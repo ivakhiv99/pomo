@@ -32,6 +32,7 @@ const SmallControllButton = styled(Button)`
     border-radius: 24px;
 `;
 
+//TODO: reuse this
 const BigControllButton = styled(Button)`
     width: 128px;
     height: 96px;

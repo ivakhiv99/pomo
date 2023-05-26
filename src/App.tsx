@@ -1,10 +1,10 @@
 import { useState, useEffect, useReducer } from 'react';
 import styled, { ThemeProvider } from 'styled-components';
-import { StageDisplay, Timer, ControllButtons, Settings } from './Components';
+import { StageDisplay, Timer, ControllButtons, Settings, Notification } from './Components';
 import {ReactComponent as FocusIcon} from './Assets/icons/Focus.svg';
 import {ReactComponent as BreakIcon} from './Assets/icons/Break.svg';
 import {focusStage, shortBreakStage, longBreakStage} from './Assets/themes';
-import {FormState} from './Assets/types';
+import {FormState, Stages} from './Assets/types';
 
 interface StyleProps {
   blured: boolean;
@@ -20,13 +20,6 @@ const AppWrapper = styled.div<StyleProps>`
   background-color: ${props => props.theme.colours.backgound};
   filter: ${props => props.blured ? 'blur(3px)':'none'};
 `;
-
-
-enum Stages {
-  focus,
-  shortBreak,
-  longBreak,
-}
 
 const initialStagesInfo = {
   [Stages.focus]: {
@@ -64,10 +57,15 @@ const reducer = (initialStagesInfo: any, action: any) => {
 
 function App() {
   const [currentStageIndex, setCurrentStageIndex] = useState<number>(0);
+  const [nextStageIndex, setNextStageIndex] = useState<number>(1);
   const [currentStage, setCurrentStage] = useState<Stages>(Stages.focus);
   const [isPlaying, toggleIsPlaying] = useState<boolean>(false);
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
   const [stagesInfo, dispatch] = useReducer(reducer, initialStagesInfo);
+  const [notificationsOn, setNotificationsOn] = useState<boolean>(true);
+  const [notificationActive, toggleNotificationActive] = useState<boolean>(false);
+  const [notificationTimeout, setNotificationTimeout] = useState<boolean>(false);
+
 
   const stageSequence = [
     Stages.focus,
@@ -93,27 +91,23 @@ function App() {
     });
   }
 
-  //TODO: add notification when skiping stage
+
   const skipStage = () => {
-    if(isPlaying){
+    if(isPlaying) {
       toggleTimer();
     }
 
-    if(currentStageIndex == stageSequence.length - 1) {
-      setCurrentStageIndex(0);
-      setCurrentStage(stageSequence[0]);
+    if(notificationsOn) {
+      toggleNotificationActive(true);
     } else {
-      const nextStageIndex = currentStageIndex + 1;
-      setCurrentStageIndex(nextStageIndex);
-      setCurrentStage(stageSequence[nextStageIndex]);
+      proceedToNextStage();
     }
   };
 
-  //TODO: trigger popup for stage change when time is out
   const handleTimeout = () => {
-    alert('timeout');
+    setNotificationTimeout(true);
     skipStage();
-  }
+  };
 
   useEffect(() => {
     if(settingsOpen) {
@@ -121,16 +115,49 @@ function App() {
     }
   }, [settingsOpen]);
   
+
+  //TODO: create reusable toggle function ? 
   const toggleSettingsOpen = () => setSettingsOpen(!settingsOpen); 
   const closeSettings = (newValues: FormState) => {
     updateStageLength(newValues);
     setSettingsOpen(false);
   }
+
+  const closeNotification = () => {
+    proceedToNextStage();
+    toggleNotificationActive(false);
+  }
+
+  const proceedToNextStage = () => {
+    if(currentStageIndex == stageSequence.length - 1) {
+      setCurrentStageIndex(0);
+      setCurrentStage(stageSequence[0]);
+      setNextStageIndex(1);
+    } else {
+      const nextStageI = currentStageIndex + 1;
+      setCurrentStageIndex(nextStageI);
+      setCurrentStage(stageSequence[nextStageI]);
+      if(nextStageI == stageSequence.length-1) {
+        setNextStageIndex(0);
+      } else {
+        setNextStageIndex(nextStageI + 1);
+      }
+    }
+    setNotificationTimeout(false);
+  }
+
+  const toggleNotifications = () => setNotificationsOn(!notificationsOn);
+
+  //BUG: if two stages in a row have the same length after one timed out, the other one stays at 0 seconds left.   
   return (
     <ThemeProvider theme={stagesInfo[currentStage].theme}>
       { settingsOpen 
         && 
         <Settings
+          notifications={notificationsOn}
+          toggleNotifications={toggleNotifications}
+          darkTheme={false}
+          toggleDarkTheme={()=>{}}
           values={{
             focusLength: stagesInfo[Stages.focus].lengthInMinutes,
             shortBreakLength: stagesInfo[Stages.shortBreak].lengthInMinutes,
@@ -140,7 +167,17 @@ function App() {
           theme={stagesInfo[currentStage].theme}
         />
       } 
-      <AppWrapper blured={settingsOpen}>
+      {
+        notificationsOn && notificationActive
+        &&
+        <Notification
+          isTimeout={notificationTimeout}
+          handleClose={closeNotification}
+          nextStage={stagesInfo[stageSequence[nextStageIndex]].label}
+          nextStageIcon={stagesInfo[stageSequence[nextStageIndex]].icon}
+        />
+      }
+      <AppWrapper blured={settingsOpen || notificationActive}>
         <StageDisplay Icon={stagesInfo[currentStage].icon} stage={stagesInfo[currentStage].label}/>
         <Timer
           time={stagesInfo[currentStage].lengthInMinutes}
@@ -161,12 +198,7 @@ function App() {
 
 export default App;
 
-
 //TODO: add conditional favicon & change it dependign on app state
-
-//TODO: basic view components:
-// - buttons :
-//    + settings
 
 
 // TIME: 
@@ -178,10 +210,13 @@ export default App;
 // 24.05 - start 12:00 - end 13:15 = 0115
 // 24.05 - start 14:00 - end 14:15 = 0015
 // 24.05 - start 15:45 - end 16:00 = 0015
-// 24.05 - start 16:45 - end 18:15 = 0115  = 0200
+// 24.05 - start 16:45 - end 18:15 = 0130  = 0215
 
 // 25.05 - start 11:15 - end 12:00 = 0045
-// 25.05 - start 12:15 - end 
+// 25.05 - start 12:15 - end 13:30 = 0115  
+// 25.05 - start 15:30 - end 15:45 = 0015  
+// 25.05 - start 16:00 - end 17:00 = 0100  = 0315
 
-
+// 26.05 - start 13:30 - end 13:45 = 0015
+// 26.05 - start 14:45 - end 
 

@@ -3,3 +3,9 @@ export type FormState = {
     shortBreakLength: number;
     longBreakLength: number;
 };
+
+export enum Stages {
+    focus,
+    shortBreak,
+    longBreak,
+  }
