@@ -159,9 +159,9 @@ function App() {
 
   const toggleNotifications = () => setNotificationsOn(!notificationsOn);
   const toggleDarkMode = () => setDarkMode(!darkMode);
-  //BUG: if two stages in a row have the same length after one timed out, the other one stays at 0 seconds left.   
+
   return (
-    <ThemeProvider theme={stagesInfo[currentStage][darkMode ? 'theme' : 'darkTheme']}>
+    <ThemeProvider theme={stagesInfo[currentStage][darkMode ? 'darkTheme' : 'theme']}>
       { settingsOpen 
         && 
         <Settings
@@ -230,5 +230,6 @@ export default App;
 
 // 26.05 - start 13:30 - end 13:45 = 0015
 // 26.05 - start 14:45 - end 15:30 = 0045
-// 26.05 - start 16:15 -
+// 26.05 - start 16:15 - end 17:00 = 0045  = 0145
 
+// 27.05 - start 13

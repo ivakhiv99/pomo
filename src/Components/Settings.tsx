@@ -150,7 +150,7 @@ const Settings:FC<ISettings> = ({
                     colorKnobOnLeft={theme.colours.backgound}
                     colorKnobOnRight={theme.colours.mainBtn}
                     colorSwitch={theme.colours.buttons}
-                    knobOnLeft={darkTheme}
+                    knobOnLeft={!darkTheme}
                     onChange={toggleDarkTheme}
                 />
             </FlexRowSpaceBetween>

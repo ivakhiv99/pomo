@@ -22,7 +22,7 @@ const Timer:FC<ITimer> = ({time, isActive, handleTimeout}) => {
     const [totalSeconds, updateTotalSeconds] = useState<number>(time*60);
 
     useEffect(() => {
-        updateTotalSeconds(time*60);
+        updateTotalSeconds(time*60); 
         updateMinutesLeft(formatTime(time));
         updateSecondsLeft('00');
     }, [time]);
@@ -37,6 +37,7 @@ const Timer:FC<ITimer> = ({time, isActive, handleTimeout}) => {
                 if(seconds === 0 ) {
                     clearInterval(timerInterval);
                     handleTimeout();
+                    handleTimeFormating(time*60);
                 }
             }, 1000);
         }
@@ -49,7 +50,7 @@ const Timer:FC<ITimer> = ({time, isActive, handleTimeout}) => {
     }, [isActive]);
 
     const handleTimeFormating = (seconds: number) => {
-        const m = Math.floor(seconds/60);
+        const m = Math.floor(seconds/60); 
         const s = seconds - m*60;
         updateTotalSeconds(seconds);
         updateMinutesLeft(formatTime(m)); //TODO: add memo;
