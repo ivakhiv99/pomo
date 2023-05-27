@@ -1,5 +1,11 @@
+@font-face {
+  font-family: 'Roboto Flex';
+  src: url(Assets/fonts/RobotoFlex-VariableFont.ttf);
+}
+
 * {
   box-sizing: border-box;
+  font-family: 'Roboto Flex';
 }
 
 body {

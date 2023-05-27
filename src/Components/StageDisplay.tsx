@@ -6,6 +6,7 @@ const Stage = styled.div`
     width: auto;
     max-width: 195px;
     height: 48px;
+    margin-bottom: 23px;
     border: 2px solid ${props => props.theme.colours.textAndIcons};
     border-radius: 9999px;
     background: ${props => props.theme.colours.buttons};

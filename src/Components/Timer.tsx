@@ -1,13 +1,22 @@
-import {FC, useEffect, useState} from "react";
+import { FC, useEffect, useState } from "react";
 import styled from "styled-components";
 
-const Time = styled.div`
+
+interface StyleProps{
+    isActive: boolean;
+};
+
+const Time = styled.div<StyleProps>`
     width: 295px;
     height: 436px;
+    margin-bottom: 23px;
     font-size: 256px;
     line-height: 85%;
     color: ${props => props.theme.colours.textAndIcons};
     font-family: 'Roboto Flex';
+    font-weight: ${props => props.isActive ? '800' : '200'};
+    font-stretch:  ${props => props.isActive ? '110' : '100'};
+    font-variation-settings: 'opsz' 14, 'GRAD' 0, 'slnt' 0, 'XTRA' 468, 'XOPQ' 96, 'YOPQ' 79, 'YTLC' 514, 'YTUC' 712, 'YTAS' 750, 'YTDE' -203, 'YTFI' 738;
 `;
 
 interface ITimer {
@@ -60,7 +69,7 @@ const Timer:FC<ITimer> = ({time, isActive, handleTimeout}) => {
     const formatTime = (t:number) => t.toString().length == 1 ? `0${t}` : t.toString();
 
     return (
-        <Time>
+        <Time isActive={isActive}>
             <div>{minutesLeft}</div>
             <div>{secondsLeft}</div>
         </Time>
