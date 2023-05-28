@@ -27,7 +27,7 @@ const ModalWrapper = styled.div`
 `;
 
 //TODO: reuse this;
-const FlexRowSpaceBetween = styled.div`
+const SettingsRow = styled.div`
     width: 100%;
     height: 64px;
     padding: 24px;
@@ -35,6 +35,10 @@ const FlexRowSpaceBetween = styled.div`
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
+`;
+
+const SettingsTitleRow = styled(SettingsRow)`
+    height: 82px;
 `;
 
 //TODO: reuse this;
@@ -134,15 +138,15 @@ const Settings:FC<ISettings> = ({
 
     return (
         <ModalWrapper>
-            <FlexRowSpaceBetween>
+            <SettingsTitleRow>
                 <ModalTitle>
                     Settings
                 </ModalTitle>
                 <Button onClick={saveAndClose}>
-                    <CustomIcon icon={Close}/>
+                    <CustomIcon size={11} icon={Close}/>
                 </Button>
-            </FlexRowSpaceBetween>
-            <FlexRowSpaceBetween>
+            </SettingsTitleRow>
+            <SettingsRow>
                 <Label>
                     Dark mode
                 </Label>
@@ -152,9 +156,11 @@ const Settings:FC<ISettings> = ({
                     colorSwitch={theme.colours.buttons}
                     knobOnLeft={!darkTheme}
                     onChange={toggleDarkTheme}
+                    aspectRatio={1.7}
+                    knobSize={16}
                 />
-            </FlexRowSpaceBetween>
-            <FlexRowSpaceBetween>
+            </SettingsRow>
+            <SettingsRow>
                 <Label>
                     Focus length   
                 </Label>
@@ -163,8 +169,8 @@ const Settings:FC<ISettings> = ({
                     value={formState.focusLength}
                     onChange={handleInput}
                 />
-            </FlexRowSpaceBetween>
-            <FlexRowSpaceBetween>
+            </SettingsRow>
+            <SettingsRow>
                 <Label>
                     Short break length
                 </Label>
@@ -173,8 +179,8 @@ const Settings:FC<ISettings> = ({
                     value={formState.shortBreakLength}
                     onChange={handleInput}
                 />
-            </FlexRowSpaceBetween>
-            <FlexRowSpaceBetween>
+            </SettingsRow>
+            <SettingsRow>
                 <Label>
                     Long break length
                 </Label>
@@ -183,8 +189,8 @@ const Settings:FC<ISettings> = ({
                     value={formState.longBreakLength}
                     onChange={handleInput}
                 />
-            </FlexRowSpaceBetween>
-            <FlexRowSpaceBetween>
+            </SettingsRow>
+            <SettingsRow>
                 <Label>
                     Notifications
                 </Label>
@@ -194,8 +200,10 @@ const Settings:FC<ISettings> = ({
                     colorSwitch={theme.colours.buttons}
                     knobOnLeft={!notifications}
                     onChange={toggleNotifications}
+                    aspectRatio={1.7}
+                    knobSize={16}
                 />
-            </FlexRowSpaceBetween>
+            </SettingsRow>
         </ModalWrapper>
     );
 };

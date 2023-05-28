@@ -65,6 +65,12 @@ const BigControllButton = styled(Button)`
     margin: 0 16px;
 `;
 
+const ButtonIconWrapper = styled.div`
+    width: 32px;
+    height: 32px;
+    padding: 3px 2px 3px 8px;
+`;
+
 const Label = styled.div`
     font-family: 'Roboto Flex';
     font-style: normal;
@@ -92,7 +98,9 @@ const Notification:FC<INotification> = ({isTimeout, handleClose, nextStage, next
             <Label>{ isTimeout ? 'Continuing' : 'Skipping'} to next stage:</Label>
             <StageDisplay Icon={nextStageIcon} stage={nextStage}/>
         <BigControllButton onClick={handleClose}>
-            <CustomIcon icon={Play}/>
+            <ButtonIconWrapper>
+                <CustomIcon icon={Play}/>
+            </ButtonIconWrapper>
         </BigControllButton>
    </NotificationWrapper>
 );

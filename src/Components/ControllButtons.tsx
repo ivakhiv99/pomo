@@ -42,6 +42,12 @@ const BigControllButton = styled(Button)`
     margin: 0 16px;
 `;
 
+const ButtonIconWrapper = styled.div`
+    width: 32px;
+    height: 32px;
+    padding: 3px 2px 3px 8px;
+`;
+
 interface IControllButtons {
     handleSkipStage: () => void;
     handlePlayBtn: () => void;
@@ -68,11 +74,13 @@ const ControllButtons:FC<IControllButtons> = ({
             onClick={handlePlayBtn}
             disabled={areDisabled}
         >
+            <ButtonIconWrapper>
             { 
                 isPlaying 
                 ? <CustomIcon icon={Pause}/>
                 : <CustomIcon icon={Play}/>
             }
+            </ButtonIconWrapper>
         </BigControllButton>
         <SmallControllButton
             onClick={handleSkipStage}
