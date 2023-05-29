@@ -22,7 +22,6 @@ const Stage = styled.div`
     font-weight: 500;
     font-size: 24px;
     line-height: 28px;
-
 `;
 
 interface IStageDisplay {

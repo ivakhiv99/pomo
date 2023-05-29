@@ -8,4 +8,4 @@ export enum Stages {
     focus,
     shortBreak,
     longBreak,
-  }
+};

@@ -1,10 +1,10 @@
-import {FC, useEffect, useReducer} from 'react';
+import { FC, useEffect, useReducer } from 'react';
 import styled from "styled-components";
 import CustomIcon from './utils/IconWrapper';
 import { ReactComponent as Close } from '../Assets/icons/Close.svg';
 import IosSwitchMaterialUi from 'ios-switch-material-ui';
 import Input from './Input';
-import {FormState} from '../Assets/types';
+import { FormState } from '../Assets/types';
 import { Button, ModalWrapper, ModalTitle, Label } from './styles';
 
 const SettingsRow = styled.div`
@@ -20,7 +20,6 @@ const SettingsRow = styled.div`
 const SettingsTitleRow = styled(SettingsRow)`
     height: 82px;
 
-    
     @media (max-width: 425px) {
         margin-bottom: 150px;
     }

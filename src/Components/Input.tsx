@@ -1,9 +1,8 @@
-import {FC} from 'react';
+import { FC } from 'react';
 import styled from "styled-components";
 import { ReactComponent as Play } from '../Assets/icons/Play.svg';
 import CustomIcon from './utils/IconWrapper';
 import { Button } from './styles';
-
 
 const InputWrapper = styled.div`
     display: flex;
@@ -83,7 +82,7 @@ const Input:FC<IInput> = ({
 }) => {
 
     const increment = () => {
-        if (value+1 > 0) {
+        if (value+1 > 0 && value+1 <= 99) {
             onChange(name, value+1);
         }
     };
@@ -95,8 +94,12 @@ const Input:FC<IInput> = ({
     };
 
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if(!isNaN(+e.target.value) && +e.target.value<=999) {
-            onChange(name, +e.target.value);
+        if(!isNaN(+e.target.value) && +e.target.value<=99) {
+            if(+e.target.value === 0) {
+                onChange(name, 1);
+            } else {
+                onChange(name, +e.target.value);
+            }
         }
     }
 

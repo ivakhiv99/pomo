@@ -1,6 +1,5 @@
 import styled from "styled-components";
 
-
 export const ModalWrapper = styled.div`
     width: 448px;
     height: 418px;

@@ -1,4 +1,4 @@
-import {FC} from 'react';
+import { FC } from 'react';
 import styled from 'styled-components';
 import { ReactComponent as Play } from '../Assets/icons/Play.svg';
 import CustomIcon from './utils/IconWrapper';
@@ -18,7 +18,6 @@ const NotificationWrapper = styled(ModalWrapper)`
         box-shadow: 0px 1px 6px ${props => props.theme.colours.buttons} , 0px 5.5px 16px ${props => props.theme.colours.backgound};
         border-radius: 0;
     }
-
 `;
 
 const ContinueButton = styled(Button)`

@@ -69,9 +69,12 @@ function App() {
   const [currentStageIndex, setCurrentStageIndex] = useState<number>(0);
   const [nextStageIndex, setNextStageIndex] = useState<number>(1);
   const [currentStage, setCurrentStage] = useState<Stages>(Stages.focus);
+
   const [isPlaying, toggleIsPlaying] = useState<boolean>(false);
   const [settingsOpen, setSettingsOpen] = useState<boolean>(false);
+
   const [stagesInfo, dispatch] = useReducer(reducer, initialStagesInfo);
+
   const [notificationsOn, setNotificationsOn] = useState<boolean>(true);
   const [notificationActive, toggleNotificationActive] = useState<boolean>(false);
   const [notificationTimeout, setNotificationTimeout] = useState<boolean>(false);
@@ -232,10 +235,6 @@ function App() {
 }
 
 export default App;
-
-
-//TODO: 
-// - code cleanup
 
 // TIME: 
 // 23.05 - start 11:00 - end 14:00 = 0300

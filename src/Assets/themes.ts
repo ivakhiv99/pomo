@@ -33,7 +33,7 @@ const focusStageDark = {
         backgound: '#0D0404',
         buttons: 'rgba(255, 76, 76, 0.15)',
         mainBtn: 'rgba(255, 76, 76, 0.71)',
-        textAndIcons: '#FFF2F2', //NOTE: on design there is different color for button icons when timer is running
+        textAndIcons: '#FFF2F2', //NOTE: pause icon on design has different color for button icons when timer is running on focus stage
         inputBorders: 'rgba(255, 255, 255, 0.15)',
     }
 };
