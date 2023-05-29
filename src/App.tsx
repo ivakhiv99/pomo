@@ -77,7 +77,6 @@ function App() {
   const [notificationTimeout, setNotificationTimeout] = useState<boolean>(false);
   const [darkMode, setDarkMode] = useState<boolean>(false);
 
-
   const stageSequence = [
     Stages.focus,
     Stages.shortBreak,
@@ -152,8 +151,8 @@ function App() {
   }, [settingsOpen]);
   
 
-  //TODO: create reusable toggle function ? 
   const toggleSettingsOpen = () => setSettingsOpen(!settingsOpen); 
+
   const closeSettings = (newValues: FormState) => {
     updateStageLength(newValues);
     setSettingsOpen(false);
@@ -236,7 +235,6 @@ export default App;
 
 
 //TODO: 
-// - mobile styles
 // - code cleanup
 
 // TIME: 
@@ -264,5 +262,5 @@ export default App;
 
 // 28.05 - start 15:30 - end 16:00 = 0030  = 0030
 
-// 29.05 - start 11:15 - end 
-
+// 29.05 - start 11:15 - end 12:30 = 0115
+// 29.05 - start 13:30 - end 

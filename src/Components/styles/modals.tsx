@@ -18,6 +18,16 @@ export const ModalWrapper = styled.div`
     box-shadow: 0px 1px 6px ${props => props.theme.colours.buttons} , 0px 5.5px 16px ${props => props.theme.colours.backgound};
     border-radius: 24px;
     z-index: 99;
+
+    @media (max-width: 425px) {
+        width: 100%;
+        height: 100%;
+        border: none;
+        box-shadow: none;
+        border-radius: 0;
+        justify-content: flex-start;
+    }
+
 `;
 
 export const ModalTitle = styled.div`

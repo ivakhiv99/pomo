@@ -28,6 +28,10 @@ const BigControllButton = styled(Button)`
     background: ${props => props.theme.colours.mainBtn};
     border-radius: 32px;
     margin: 0 16px;
+
+    @media (max-width: 425px) {
+        margin: 0 8px;
+    }
 `;
 
 interface StyleProps {

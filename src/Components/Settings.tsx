@@ -19,6 +19,11 @@ const SettingsRow = styled.div`
 
 const SettingsTitleRow = styled(SettingsRow)`
     height: 82px;
+
+    
+    @media (max-width: 425px) {
+        margin-bottom: 150px;
+    }
 `;
 
 interface ISettings {

@@ -11,6 +11,14 @@ const NotificationWrapper = styled(ModalWrapper)`
     height: 318px;
     justify-content: space-between;
     padding: 24px;
+
+    @media (max-width: 425px) {
+        width: 100%;
+        border: none;
+        box-shadow: 0px 1px 6px ${props => props.theme.colours.buttons} , 0px 5.5px 16px ${props => props.theme.colours.backgound};
+        border-radius: 0;
+    }
+
 `;
 
 const ContinueButton = styled(Button)`
