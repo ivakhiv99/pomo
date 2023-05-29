@@ -5,23 +5,12 @@ import { ReactComponent as Pause } from '../Assets/icons/Pause.svg';
 import { ReactComponent as Play } from '../Assets/icons/Play.svg';
 import { ReactComponent as Skip } from '../Assets/icons/Skip.svg';
 import CustomIcon from './utils/IconWrapper';
+import { Button } from "./styles";
 
 const ButtonsWrapper = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-`;
-
-//TODO: reuse this
-const Button = styled.button`
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    border: none;
-    outline: none;
-    background-color: transparent;
 `;
 
 const SmallControllButton = styled(Button)`
@@ -32,7 +21,6 @@ const SmallControllButton = styled(Button)`
     border-radius: 24px;
 `;
 
-//TODO: reuse this
 const BigControllButton = styled(Button)`
     width: 128px;
     height: 96px;

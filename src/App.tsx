@@ -225,7 +225,7 @@ function App() {
           handlePlayBtn={toggleTimer}
           handleSkipStage={skipStage}
           isPlaying={isPlaying}
-          areDisabled={settingsOpen}
+          areDisabled={settingsOpen || notificationActive}
         />
       </AppWrapper>
     </ThemeProvider>

@@ -2,6 +2,8 @@ import {FC} from 'react';
 import styled from "styled-components";
 import { ReactComponent as Play } from '../Assets/icons/Play.svg';
 import CustomIcon from './utils/IconWrapper';
+import { Button } from './styles';
+
 
 const InputWrapper = styled.div`
     display: flex;
@@ -30,17 +32,6 @@ const StyledInput = styled.input`
 const InputControls = styled.div`
     display: flex;
     flex-direction: column;
-`;
-
-const Button = styled.button`
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: center;
-    cursor: pointer;
-    border: none;
-    outline: none;
-    background-color: transparent;
 `;
 
 const InputBtn = styled(Button)`
@@ -92,11 +83,15 @@ const Input:FC<IInput> = ({
 }) => {
 
     const increment = () => {
-        onChange(name, value+1);
+        if (value+1 > 0) {
+            onChange(name, value+1);
+        }
     };
 
     const decrement = () => {
-        onChange(name, value-1);
+        if (value-1 > 0) {
+            onChange(name, value-1);
+        }
     };
 
     const handleInput = (e: React.ChangeEvent<HTMLInputElement>) => {
