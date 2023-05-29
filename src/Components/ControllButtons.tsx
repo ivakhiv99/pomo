@@ -42,10 +42,14 @@ const BigControllButton = styled(Button)`
     margin: 0 16px;
 `;
 
-const ButtonIconWrapper = styled.div`
+interface StyleProps {
+    isPlaying: boolean;
+}
+
+const ButtonIconWrapper = styled.div<StyleProps>`
     width: 32px;
     height: 32px;
-    padding: 3px 2px 3px 8px;
+    padding: ${props => props.isPlaying ? '4px 5px' : '3px 2px 3px 8px'};
 `;
 
 interface IControllButtons {
@@ -74,7 +78,7 @@ const ControllButtons:FC<IControllButtons> = ({
             onClick={handlePlayBtn}
             disabled={areDisabled}
         >
-            <ButtonIconWrapper>
+            <ButtonIconWrapper isPlaying={isPlaying}>
             { 
                 isPlaying 
                 ? <CustomIcon icon={Pause}/>

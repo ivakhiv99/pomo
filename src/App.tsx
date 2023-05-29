@@ -85,6 +85,32 @@ function App() {
     Stages.longBreak,
   ];
 
+  useEffect(() => {
+    let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement | null;
+    if (!link) {
+      link = document.createElement('link');
+      link.rel = 'icon';
+      document.getElementsByTagName('head')[0].appendChild(link);
+    }
+    switch(currentStage) {
+      case Stages.focus: {
+        link.href = './faviconFocus.ico';
+        break; 
+      };
+      case Stages.shortBreak: {
+        link.href = './faviconShortBreak.ico';
+        break; 
+      };
+      case Stages.longBreak: {
+        link.href = './faviconLongBreak.ico';
+        break; 
+      };
+      default: {
+        link.href = './faviconFocus.ico';
+      }
+    }
+  }, [currentStage]);
+
   const toggleTimer = () => toggleIsPlaying(!isPlaying);
 
   const updateStageLength = (newValues: FormState) => {
@@ -101,7 +127,6 @@ function App() {
       value: newValues.longBreakLength,
     });
   }
-
 
   const skipStage = () => {
     if(isPlaying) {
@@ -209,8 +234,10 @@ function App() {
 
 export default App;
 
-//TODO: add conditional favicon & change it dependign on app state
 
+//TODO: 
+// - mobile styles
+// - code cleanup
 
 // TIME: 
 // 23.05 - start 11:00 - end 14:00 = 0300
@@ -235,4 +262,7 @@ export default App;
 // 27.05 - start 13:15 - end 13:45 = 0030
 // 27.05 - start 14:30 - end 15:00 = 0030  = 0100
 
-// 28.05 - start 15:30 - end
+// 28.05 - start 15:30 - end 16:00 = 0030  = 0030
+
+// 29.05 - start 11:15 - end 
+
